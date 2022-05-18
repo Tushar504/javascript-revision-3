@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>throttler</title>
+</head>
+<body>
+    <button id="button">Click me</button>
+</body>
+</html>
+<script>
+  let button=document.getElementById("button")
+  button.addEventListener("click",throttler(()=>{
+      console.log("clicked")
+  },1500))
+  let prev=0;
+  function throttler(cb,delay){
+    
+    return ()=>{
+       
+        let time=new Date().getTime()
+        console.log(time-prev,delay)
+        if(time-prev>delay){
+            prev=time
+            return cb()
+        }
+    }
+}
+</script>
