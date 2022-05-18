@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    #append{
+        visibility: hidden;
+        width: 500px;
+        margin: auto;
+        border: 1px solid black;
+    }
+    #input{
+        width: 500px;
+        margin: auto;
+        border:1px solid red;
+    }
+    #container{
+        width: 500px;
+        margin: auto;
+    }
+</style>
+<body>
+    <div id="container">
+        <input id="input" oninput="debounce(main,1000)" type="text" placeholder="search by movie name"/>
+        <div id="append"></div>
+  
+
+    </div>
+
+</body>
+</html>
+<script>
+    const main=async()=>{
+        document.getElementById("append").innerHTML=""
+        document.getElementById("append").style.visibility="visible"
+        let  search=document.getElementById("input").value
+        let res=await fetch (`http://www.omdbapi.com/?apikey=980a451c&s=${search}`)
+        let data=await res.json()
+       
+       if(!data.Error){
+        data.Search.map((e)=>{
+            let p=document.createElement("p")
+            p.textContent=e.Title
+            document.getElementById("append").append(p)
+        })
+     
+    }
+    else{
+            let p=document.createElement("h1")
+            p.textContent="No results found"
+            document.getElementById("append").append(p)
+        }
+    }
+
+    let id;
+    const debounce=(fun,delay)=>{
+        if(id){
+         clearTimeout(id)
+        }
+      
+        id=setTimeout(fun,delay)
+    
+    }
+</script>
